@@ -1,0 +1,88 @@
+{% extends "base.html" %} 
+
+{% load humanize %}
+
+{% block content %}
+
+<div class="container max-w-screen-md mx-auto mt-10">
+    <article class="prose prose-sm sm:prose lg:prose-lg mx-auto text-center">
+        <h1>Articles ({{ articles.count }})</h1>
+    </article>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3">
+            <div class="container">
+                <div class="row">
+                    {% for article in article_list %}
+                    <div class='post-module overflow-hidden'>
+                        <div class='thumbnail'>
+                            <div class='date'>
+                                <div class='day'>{{ article.created_on | date:'d' }}</div>
+                                <div class='month'>{{ article.created_on | date:'M' }}</div>
+                            </div>
+                            <a href="{% url 'article' article.slug  %}">
+                                <img src='{{ article.thumbnail.url }}'>
+                            </a>
+                        </div>
+                        <div class='post-content'>
+                            <div class='category'>{{ article.category }}</div>
+                            <h1 class='title'><a href="{% url 'article' article.slug  %}">{{ article.title }}</a></h1>
+                            <!--h2 class='sub-title'>The city that never sleeps.</h2-->
+                            <p class='description'>{{article.description | slice:":200" | safe }}</p>
+                            <div class='post-meta'>
+                                <span class='timestamp'>
+                                <i class='fa fa-clock-o'></i>
+                                {{ article.created_on | timesince }}
+                                </span>
+                                <span class='comments'>
+                                <i class='fa fa-comments'></i>
+                                <a href='#'>39 comments</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if article_list.has_other_pages %}
+                <nav class="pagination" role="navigation">
+                    
+
+                    {% if article_list.has_previous %}
+                        <a href="?page={{ article_list.previous_page_number }}" class="prev fa fa-arrow-left"></a>
+                    {% else %}
+                        <a class="disabled fa fa-arrow-left"></a>
+                    {% endif %}
+
+                    {% for i in article_list.paginator.page_range %}
+                        {% if article_list.number == i %}
+                            <a class="active">{{i}}</a>
+                        {% else %}
+                            <a href="?page={{i}}">{{i}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if article_list.has_next %}
+                        <a href="?page={{ article_list.next_page_number }}" class="next fa fa-arrow-right"></a>
+                    {% else %}
+                        <a class="disabled fa fa-arrow-right"></a>
+                    {% endif %}
+
+                    {% for i in article_list.paginator.page_range %}
+                        {% if article_list.number == i %}
+                            <span class="items-center"> Page {{ i }} of {{ article_list.paginator.num_pages }} </span>
+                        {% endif %}
+                    {% endfor %}
+                </nav>
+                {% endif %}
+
+            </div>
+        </div>                
+        
+        {% block sidebar %} {% include 'partials/_sidebar.html' %} {% endblock sidebar %}
+
+    </div>
+</div>
+{%endblock%}

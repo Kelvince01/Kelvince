@@ -1,0 +1,47 @@
+
+
+{% block metadescription %}
+    {% if category %} {{ category.description|truncatewords:155 }} {% else %} Kelvince {% endif %}
+{% endblock %}
+
+{% block extra_head %}{% endblock %}
+
+{% block extra_head %}
+<meta http-equiv="refresh" content="5;url=http://www.example.com/"/>
+{% endblock %}
+
+{% block key %}{%if page.key%}{{page.key}}{%else%}{{block.super}}{%endif%}{% endblock %}
+{% block desc %}{%if page.desc%}{{page.desc}}{%else%}{{block.super}}{%endif%}{% endblock %}
+{%block title%}{%if page.title%}{{page.title}}{%else%}{{block.super}}{%endif%}{%endblock%}
+
+<!--#{%block tag%}{%if page.title%}{{page.title}}{%else%}{{block.super}}{%endif%}{%endblock%}-->
+
+{%block content%}
+
+
+
+<link rel="canonical" href='https://kelvince.co.ke/<?php if(isset($canonical)){ echo $canonical; } ?>'>
+    <title><?php if(isset($title)){ echo $title; } ?></title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Custom icon font-->
+    <link rel="stylesheet" href="css/fontastic.css">
+    <!-- Google fonts - Open Sans-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- Fancybox-->
+    <link rel="stylesheet" href="vendor/@fancyapps/fancybox/jquery.fancybox.min.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="css/style.sea.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/themes/prism.min.css">
+    <script src="//platform-api.sharethis.com/js/sharethis.js#property=5c5fee1083748d00113154bc&product=inline-share-buttons"></script>

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load humanize %}
+
+{% block content %}
+
+<div class="popular-articles">
+    <header class="popular-header header-card white-underline-links">
+      <h2 class="header-card-title">Popular <br />this <br />Year</h2>
+      <p class="header-card-sponsor">
+        Sponsored by<br />
+        <a href="https://www.truehost.co.ke/cloud/aff.php?aff=256">Truehost Cloud</a>
+      </p>
+    </header>
+
+    <div class="mini-card-grid">
+    {% for article in popular_articles_home %}
+      <article
+        class="mini-card module module-article article"
+        id="mini-post-280085"
+      >
+        <header class="mini-article-card-header">
+          <div class="mini-article-card-title">
+            <div class="mini-article-subhead">
+              Article
+              <time datetime="{{ article.created_on }}"> {{ article.created_on | timesince }} </time>
+            </div>
+
+            <h2 class="">
+              <a
+                href="{% url 'article' article.slug %}"
+                class="article-card-header read-article"
+              >
+              {{ article.title }}
+              </a>
+            </h2>
+          </div>
+        </header>
+
+        <div class="mini-article-meta">
+          <div class="mini-article-byline">
+            <div class="author-avatar">
+              <a
+                class="author-name"
+                href="{% url 'about' %}"
+              >
+                <img
+                  alt=""
+                  src="{% static 'images/author.png' %}"
+                  srcset="{% static 'images/author.png' %}"
+                  class="avatar avatar-80 photo"
+                  height="80"
+                  width="80"
+                />
+              </a>
+              <svg class="half-circle" width="80px" height="80px">
+                <use xlink:href="#half-circle"></use>
+              </svg>
+            </div>
+            <div class="author-name-area">
+              <div class="author-name-prefix">Author</div>
+              <a
+                class="author-name"
+                href="{% url 'about' %}"
+              >
+                Kelvince
+              </a>
+            </div>
+          </div>
+
+          <div class="tags">
+              {% for tag in article.tags.all %}
+            <a
+              href="{% url 'tag' tag.slug %}"
+              >{{ tag }}</a
+            >
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="text-center">Recent Articles</h1>
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3">
+            <div class="container">
+                <div class="row">
+                    {% for article in article_list %}
+                    <div class='post-module overflow-hidden'>
+                        <div class='thumbnail'>
+                            <div class='date'>
+                                <div class='day'>{{ article.created_on | date:'d' }}</div>
+                                <div class='month'>{{ article.created_on | date:'M' }}</div>
+                            </div>
+                            <a href="{% url 'article' article.slug  %}">
+                                <img src='{{ article.thumbnail.url }}'>
+                            </a>
+                        </div>
+                        <div class='post-content'>
+                            <div class='category'>{{ article.category }}</div>
+                            <h1 class='title'><a href="{% url 'article' article.slug  %}">{{ article.title }}</a></h1>
+                            <!--h2 class='sub-title'>The city that never sleeps.</h2-->
+                            <p class='description'>{{article.description | slice:":200" | safe }}</p>
+                            <div class='post-meta'>
+                                <span class='timestamp'>
+                                <i class='fa fa-clock-o'></i>
+                                {{ article.created_on | timesince }}
+                                </span>
+                                <span class='comments'>
+                                <i class='fa fa-comments'></i>
+                                <a href='#'>39 comments</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if article_list.has_other_pages %}
+                <nav class="pagination" role="navigation">
+                    {% if article_list.has_previous %}
+                        <a href="?page={{ article_list.previous_page_number }}" class="prev fa fa-arrow-left"></a>
+                    {% else %}
+                        <a class="disabled"></a>
+                    {% endif %}
+
+                    {% for i in article_list.paginator.page_range %}
+                        {% if posts.number == i %}
+                            <a class="active">{{i}}</a>
+                        {% else %}
+                            <a href="?page={{i}}">{{i}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if article_list.has_next %}
+                        <a href="?page={{ article_list.next_page_number }}" class="next fa fa-arrow-right"></a>
+                    {% else %}
+                        <a class="disabled"></a>
+                    {% endif %}
+                </nav>
+
+                {% endif %}
+            </div>
+        </div>                
+        
+        {% block sidebar %} {% include 'partials/_sidebar.html' %} {% endblock sidebar %}
+
+    </div>
+</div>
+
+{%endblock%}

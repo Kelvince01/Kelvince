@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% load static %}
+
+{% block title %} | {{ article.title }} {% endblock %}
+
+{% block content %}
+
+<div class="container max-w-screen-md mx-auto mt-10">
+  <article class="prose prose-sm sm:prose lg:prose-lg mx-auto text-center">
+      <h1>About</h1>
+  </article>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 about-content card">
+      <h3>Hey Howdy, </h3>
+
+      <div>
+        <p>
+          <figure><a href="{% url 'portifolio' %}"><img class="author-image image-fluid" src="{% static 'images/author.png' %}" sizes="(max-width: 300px) 100vw, 300px" srcset="{% static 'images/author.png' %}, {% static 'images/author.png' %} 150w, {% static 'images/author.png' %} 577w" alt="The Author - Kelvince" width="300" height="225" /></a>
+            <figcaption>The Author &ndash; Kelvince</figcaption>
+          </figure>
+          I Designed and developed this website in November 2020 using Django framework, Bootstrap and Postgres Database from an interest in Web Technologies and Development. It's hosted by Truehost Cloud. 
+          <p>View my <a href="{% url 'portifolio' %}"> Portifolio </a> for more of my projects</p>
+        </p>
+
+        <p>&ldquo;Student at the <a href="http://seku.ac.ke" target="_blank" rel="noreferrer noopener">South Eastern Kenya University (SEKU), Main Campus</a> in the <a href="http://ict.seku.ac.ke" target="_blank" rel="noreferrer noopener">School of Information,Communication and Technology </a></p>
+
+        <p>My intention was sharing my skills in computer technology mostly in <em>Computer Software, Computer Hardware, Web Technology, Programming, Devices(<i>Mobile Phones, Mobile Phones, Desktops, Networking Hardware</i>) &amp; Current Trends, Tips &amp; Improvements In Technology.</em> that i learn from time to time. From then, it has become active with frequent updates with passion about and best at what i do.</p>
+
+        <p>It is a place I can enjoy Article Writing, Blogging and improving my Development skills.&rdquo;</p>
+        <!--p>My skills have been developed with the help of the internet which now i use to give back</p>
+        <p>By reading my posts, the visitors can gain important knowledge and share it.</p>
+        <p>It includes programs from basic to complex in the above named fields, tutorials, projects that are helpful in expanding your knowledge base for your school and outside school practices.</p-->
+      </div>
+
+      <div class="cardd">
+        <h2>Extras</h2>
+        <p>Need one like this one or similar to this, </strong>Contact me through <a href="mailto:admin@kelvince.com">admin@kelvince.com</a> and the next second will be you posting some crazy helpful ideas, Tell a friend to tell a friend.</p>
+
+        <p>I look forward to any more suggestions on the website via my contact details in the <a href="{% url 'contact' %}"><strong>Contact</strong></a> Page.</p>
+      </div>
+
+    </div>
+
+    <aside class="col-md-12">
+      <div class="container">
+        <div class="row">
+          <div class="about-quote col-md-6">
+            <h3 style="text-align: center;">Quote</h3>
+            <blockquote>
+              <p>Computers are like bikinis. They save people a lot of guesswork.</p>
+              <cite> Sam Ewing </cite>
+            </blockquote>
+          </div>
+
+          <div class="about-quote col-md-6">
+            <blockquote>
+            <p>The articles posted in this blog are my own creations and are subjected to copyrights, if you have any conflicting issue with any article, part of this blog or any questions, contact me through:</p>
+            <p><a href="mailto:admin@kelvince.com">admin@kelvince.com</a> I will respond accordingly.</p>
+            <i><strong>Adios Amigo</strong></i>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+
+{% endblock %}

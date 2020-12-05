@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+
+{% load humanize %}
+
+{% block content %}
+
+<div class="container max-w-screen-md pb-16 mx-auto mt-10">
+    <article class="prose prose-sm sm:prose lg:prose-lg mx-auto text-center">
+        <h1>Archives</h1>
+    </article>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3">
+            {% for article in entry_list %}
+            {% ifchanged %}<h3>{{article.created_on|date:"Y"}}</h3>{% endifchanged %}
+            {% ifchanged %}<h4>{{article.created_on|date:"F"}}</h4>{% endifchanged %}
+            <p><a href="{% url 'article' article.slug %}"> {{article.title}} </a></p>
+            {% endfor %}
+        </div>
+        {% block sidebar %} {% include 'partials/_sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div>
+
+{%endblock%}

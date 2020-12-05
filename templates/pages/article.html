@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% load static %}
+
+{% block title %} | {{ article.title }} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 card mb-4 mt-3">
+      <article class="post" lang="en">
+        <header class="post-header">
+          <h1 class="title"> {{ article.title }} </h1>
+          <a id="category-article" href="{% url 'category' article.category.slug %}">{{ article.category }}</a>
+        </header>
+        <div class="article-meta"><time class="date" datetime="{{article.created_on}}">{{ article.created_on | timesince }} ago</time><span id="article-author"> {{ article.author }} </span><span id="article-views"><i class="icon fa fa-eye"></i> {{ article.views }} </span></div>
+        <br />
+        <p class="intro">{{ article.description | safe }}</p>
+        <div class="article_content">{{ article.content | safe }}</div>
+        <ul class="tags">
+          {% for tag in article.tags.all %}
+              <li><a href="{% url 'tag' tag.slug %}" class="tag"> #{{ tag }}</a></li>
+          {% endfor %}
+        </ul>
+        <div class="sharethis-inline-share-buttons"></div>
+        <script>function fbs_click() {u=location.href;t=document.title;window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');return false;}</script>
+      </article>
+    </div>
+
+    <div class="col-md-8 mb-4 mt-3">
+      <div class="article-pager">
+        {% if article.get_next_by_created_on %}
+            <button class="previous-article">
+                 <a href="{% url 'article' article.get_next_by_created_on.slug %}">&larr; Previous Post <br> <b>{{ article.get_next_by_created_on.title }}</b></a>
+            </button>
+          {% else %}
+          <button class="previous-article disabled"> This is the first Article! </button>
+        {% endif %}
+        {% if article.get_previous_by_created_on %}
+            <button class="next-article">
+                 <a href="{% url 'article' article.get_previous_by_created_on.slug %}">Next Post &rarr; <br> <b>{{ article.get_previous_by_created_on.title }}</b></a>
+            </button>
+          {% else %}
+            <button class="next-article disabled"> This is the last Article! </button>
+        {% endif %}
+        </div>
+    </div>
+    
+    <div class="col-md-8 card mb-4 mt-3">
+      <h1>{{ comments.count }} comments</h1>
+        <div id="discussion_bucket">
+          <div class="gutter-condensed gutter-lg d-flex flex-column flex-md-row">
+        
+            <div class="flex-shrink-0 col-12 col-md-9 mb-5 mb-md-0">
+              <div class="js-quote-selection-container" data-quote-markdown=".js-comment-body" data-issue-and-pr-hovercards-enabled="" data-team-hovercards-enabled="">
+        
+                <div class="js-discussion js-socket-channel ml-0 pl-0 ml-md-6 pl-md-3" data-channel="marked-as-read:issue:572329201">
+
+                  {% for comment in comments %}
+        
+                  <div class="TimelineItem pt-0 js-comment-container js-socket-channel" data-gid="MDU6SXNzdWU1NzIzMjkyMDE=" data-url="/_render_node/MDU6SXNzdWU1NzIzMjkyMDE=/issues/body" data-channel="issue:572329201">
+        
+                    <div class="avatar-parent-child TimelineItem-avatar d-none d-md-block">
+                      <a class="d-inline-block" data-hovercard-type="user" data-hovercard-url="Commentor" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="#"><img class="avatar rounded-1" height="40" width="40" alt="@Vanman989" src="{% static 'images/avatar.png' %}"></a>
+        
+                    </div>
+        
+                    <div class="timeline-comment-group js-minimizable-comment-group js-targetable-element TimelineItem-body my-0 " id="issue-572329201">
+                      <div class="ml-n3 timeline-comment unminimized-comment comment previewable-edit js-task-list-container js-comment timeline-comment--caret " data-body-version="06293e14059d333e75ddb00c9164c321" data-unfurl-hide-url="/content_reference_attachments/hide">
+                        <input type="hidden" data-csrf="true" class="js-data-unfurl-hide-url-csrf" value="IQPMBaXNHRZe5AnE/eU+h9c+VdovRLkiBI+18NGbNPgNayc8LDNvPpeZol54jr/2Xj4eLBoUNa0YmkctH/+O/w==">
+        
+                        <div class="timeline-comment-header clearfix d-block d-sm-flex">
+                          <div class="timeline-comment-actions flex-shrink-0">
+        
+                            <details class="details-overlay details-reset position-relative d-inline-block ">
+                              <summary class="btn-link timeline-comment-action link-gray" aria-haspopup="menu" role="button">
+                                <svg aria-label="Show options" class="octicon octicon-kebab-horizontal" viewBox="0 0 13 16" version="1.1" width="13" height="16" role="img">
+                                  <path fill-rule="evenodd" d="M1.5 9a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm5 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM13 7.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                                </svg>
+                              </summary>
+                              <details-menu class="dropdown-menu dropdown-menu-sw show-more-popover text-gray-dark anim-scale-in" style="width:185px" role="menu">
+                                <clipboard-copy class="dropdown-item btn-link" for="issue-572329201-permalink" role="menuitem" tabindex="0">
+                                  Copy link
+                                </clipboard-copy>    
+                              </details-menu>
+                            </details>
+        
+                          </div>
+        
+                          <div class="d-none d-sm-flex">
+        
+                            <span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="This user is the author of this issue.">
+                              Author
+                            </span>
+        
+                          </div>
+        
+                          <h3 class="timeline-comment-header-text f5 text-normal">
+        
+                            <a class="d-inline-block d-md-none" data-hovercard-type="user" data-hovercard-url="/users/Vanman989/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="#"><img class="avatar rounded-1" height="20" width="20" alt="Commentor" src="{% static 'images/avatar.png' %}"></a>
+        
+                            <strong class="css-truncate">
+        
+                              <a class="author link-gray-dark css-truncate-target width-fit" show_full_name="false" data-hovercard-type="user" data-hovercard-url="Commentor" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="#">{{ comment.name }}</a>
+        
+                            </strong>
+        
+                            commented
+        
+                            <a href="#" id="issue-572329201-permalink" class="link-gray js-timestamp">
+                              <relative-time datetime="2020-02-27T20:09:39Z" class="no-wrap" title="{{ comment.created_on }}">{{ comment.created_on | timesince }} ago</relative-time>
+                            </a>
+                          </h3>
+                        </div>
+        
+                        <div class="edit-comment-hide">
+                          <task-lists disabled="" sortable="">
+                            <table class="d-block" data-paste-markdown-skip="">
+                              <tbody class="d-block">
+                                <tr class="d-block">
+                                  <td class="d-block comment-body">
+                                    <p>{{ comment.body | linebreaks }}</p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </task-lists>    
+                        </div>
+        
+                      </div>
+                    </div>
+        
+                  </div>
+                  {% endfor %}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-8 card mb-4 mt-3 ">
+          <div class="card-body">
+            {% if new_comment %}
+            <div class="alert alert-success" role="alert">
+              Your comment is awaiting moderation
+            </div>
+            {% else %}
+            <h3>Leave a comment</h3>
+
+            {% load crispy_forms_tags %}
+
+            <form method="post" style="margin-top: 1.3em;">
+              {{ comment_form | crispy }}
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+</div>
+{% endblock %}

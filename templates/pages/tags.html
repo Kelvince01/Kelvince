@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% load static %}
+
+{% block title %} | {{ article.title }} {% endblock %}
+
+{% block content %}
+
+<div class="container max-w-screen-md mx-auto mt-10">
+    <article class="prose prose-sm sm:prose lg:prose-lg mx-auto text-center">
+        <h1>Tag Cloud</h1>
+    </article>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="container">
+                <ul class="tags row mt-8">
+                {% for tag in tags %}
+                    <li><a href="{% url 'tag' tag.slug %}" class="tag"> #{{ tag }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% block sidebar %} {% include 'partials/_sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div>
+
+{% endblock content %}

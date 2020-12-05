@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container max-w-screen-md pb-16 mx-auto mt-10">
+    <article class="prose prose-sm sm:prose lg:prose-lg mx-auto text-center">
+        <h1>Categories</h1>
+    </article>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="container">
+                {% if categories %}
+                <ul class="row">
+                    {% for category in categories %}
+                    <li class="category-card col-md-4">
+                        <div class="category-card_inner">
+                            <a href="/category/{{ category.slug }}" class="category-card-a">{{ category.title }}</a>
+                            <p class="category-card-p">{{ category.articles.count }} Articles</p>
+                        </div>
+                    </li>
+                    {% endfor %}  
+                </ul>
+                {% else %}
+                    <p class="text-center"><strong>There are no categories present.</strong>></p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% block sidebar %} {% include 'partials/_sidebar.html' %} {% endblock sidebar %}
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+- Create folder
+- create a virtual environment
+- create the project
+- create the apps
+- make migrations and migrate to the database
+- create superuser
+- run the server

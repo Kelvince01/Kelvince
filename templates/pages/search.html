@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% load static %}
+
+{% block title %} | {{ article.title }} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mt-8">
+            <form method='GET' action=".">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <input wire:model="search" id="search" name="q" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-blue-300 focus:shadow-outline-blue sm:text-sm transition duration-150 ease-in-out items-center" placeholder="Search" type="text" />
+                                            <input type="submit" hidden value="{{ query|escape }}"/>
+            </form>
+        </div>
+    </div>
+</div>     
+
+<div class="container">
+    <div class="row">
+        {% if query %}
+            {% if results %}
+                <!-- Blog Entries Column -->
+                {% for article in results %}
+                <div class="col-md-4 mt-3">
+                    <div class='post-module overflow-hidden'>
+                        <div class='thumbnail'>
+                            <div class='date'>
+                                <div class='day'>{{ article.created_on | date:'d' }}</div>
+                                <div class='month'>{{ article.created_on | date:'M' }}</div>
+                            </div>
+                            <a href="{% url 'article' article.slug  %}">
+                                <img src='{{ article.thumbnail.url }}'>
+                            </a>
+                        </div>
+                        <div class='post-content'>
+                            <div class='category'>{{ article.category }}</div>
+                            <h1 class='title'><a href="{% url 'article' article.slug  %}">{{ article.title }}</a></h1>
+                            <!--h2 class='sub-title'>The city that never sleeps.</h2-->
+                            <p class='description'>{{article.description | slice:":200" | safe }}</p>
+                            <div class='post-meta'>
+                                <span class='timestamp'>
+                                <i class='fa fa-clock-o'></i>
+                                {{ article.created_on | timesince }}
+                                </span>
+                                <span class='comments'>
+                                <i class='fa fa-comments'></i>
+                                <a href='#'>39 comments</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="items-center text-center">Query returned no results.</p>
+            {% endif %} 
+
+                {% if results.has_other_pages %}
+                <nav class="pagination" role="navigation">
+                    {% if results.has_previous %}
+                        <a href="?page={{ results.previous_page_number }}" class="prev fa fa-arrow-left"></a>
+                    {% else %}
+                        <a class="disabled"></a>
+                    {% endif %}
+
+                    {% for i in results.paginator.page_range %}
+                        {% if posts.number == i %}
+                            <a class="active">{{i}}</a>
+                        {% else %}
+                            <a href="?page={{i}}">{{i}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if results.has_next %}
+                        <a href="?page={{ results.next_page_number }}" class="next fa fa-arrow-right"></a>
+                    {% else %}
+                        <a class="disabled"></a>
+                    {% endif %}
+                </nav>
+                {% endif %} 
+        {% endif %}               
+    </div>
+</div>
+
+{% endblock %}
